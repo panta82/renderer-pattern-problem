@@ -45,7 +45,28 @@ ReactDOM.render(
 
 ```
 
-There's a nasty gotcha there. If your renderer function is placed outside of the render() chain and its closures, state changes will no longer trigger.
+There's a nasty gotcha there. If your renderer function is placed outside of the render() chain and its closures, state changes will no longer trigger rerender.
+
+```jsx
+// BROKEN renderer
+const renderer = ({ height, width }) => (
+  <List
+	  height={height}
+	  rowCount={list.length}
+	  rowHeight={20}
+	  rowRenderer={rowRenderer}
+	  width={width}
+  />
+)
+
+// Render your list
+ReactDOM.render(
+  <AutoSizer>
+    {renderer}
+  </AutoSizer>,
+  document.getElementById('example')
+);
+```
 
 This app demonstrates the problem.
 
